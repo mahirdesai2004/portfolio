@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mahir Desai | Diary of an SDE & ML Prodigy</title>
-  <meta name="description" content="Portfolio of Mahir Desai - Diary of a Wimpy Kid style SDE & ML portfolio with live projects, official patent, research paper, and certificates.">
+  <meta name="description" content="Portfolio of Mahir Desai - Diary of a Wimpy Kid style SDE & ML portfolio with video intro, live projects, official patent, research paper, and certificates.">
   
   <!-- Google Fonts: Wimpy Kid Aesthetic -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,6 @@
 
   <style>
     :root {
-      --desk-bg: #ece6d8;
       --bg-paper: #fdfbf7;
       --line-color: #dbe4ee;
       --margin-line: #f28b82;
@@ -22,12 +21,25 @@
       --card-bg: #ffffff;
       --card-border: #18181b;
       --card-shadow: 4px 4px 0px #18181b;
-      --tape-bg: rgba(245, 240, 220, 0.85);
-      --yellow-postit: #fff9a6;
-      --green-postit: #dcfce7;
-      --blue-postit: #e0f2fe;
-      --pink-postit: #ffe4e6;
-      --nav-bg: rgba(253, 251, 247, 0.98);
+      --tape-bg: rgba(245, 240, 220, 0.9);
+      
+      --postit-yellow-bg: #fef9c3;
+      --postit-yellow-text: #18181b;
+      --postit-yellow-border: #18181b;
+
+      --postit-green-bg: #dcfce7;
+      --postit-green-text: #052e16;
+      --postit-green-border: #18181b;
+
+      --postit-blue-bg: #e0f2fe;
+      --postit-blue-text: #082f49;
+      --postit-blue-border: #18181b;
+
+      --cheese-bg: #fef08a;
+      --cheese-text: #18181b;
+      --cheese-border: #18181b;
+
+      --nav-bg: rgba(253, 251, 247, 0.96);
       --font-body: 'Patrick Hand', cursive, sans-serif;
       --font-heading: 'Permanent Marker', cursive, sans-serif;
       --font-hand: 'Caveat', cursive, sans-serif;
@@ -35,21 +47,33 @@
     }
 
     [data-theme="dark"] {
-      --desk-bg: #0f0f12;
-      --bg-paper: #18181b;
-      --line-color: #27272a;
-      --margin-line: #881337;
-      --ink: #f4f4f5;
-      --pencil: #d4d4d8;
-      --card-bg: #27272a;
-      --card-border: #f4f4f5;
-      --card-shadow: 4px 4px 0px #f4f4f5;
+      --bg-paper: #121215;
+      --line-color: #222227;
+      --margin-line: #ef4444;
+      --ink: #ffffff;
+      --pencil: #cbd5e1;
+      --card-bg: #1c1c22;
+      --card-border: #e2e8f0;
+      --card-shadow: 4px 4px 0px #e2e8f0;
       --tape-bg: rgba(63, 63, 70, 0.85);
-      --yellow-postit: #3f3e1b;
-      --green-postit: #143521;
-      --blue-postit: #123048;
-      --pink-postit: #451a24;
-      --nav-bg: rgba(24, 24, 27, 0.98);
+
+      --postit-yellow-bg: #2d2605;
+      --postit-yellow-text: #fef08a;
+      --postit-yellow-border: #facc15;
+
+      --postit-green-bg: #0d2818;
+      --postit-green-text: #86efac;
+      --postit-green-border: #4ade80;
+
+      --postit-blue-bg: #0c2338;
+      --postit-blue-text: #bae6fd;
+      --postit-blue-border: #38bdf8;
+
+      --cheese-bg: #302604;
+      --cheese-text: #fef08a;
+      --cheese-border: #facc15;
+
+      --nav-bg: rgba(18, 18, 21, 0.96);
     }
 
     * {
@@ -58,18 +82,20 @@
       padding: 0;
     }
 
-    body {
-      background-color: var(--desk-bg);
-      background-image: radial-gradient(rgba(0,0,0,0.08) 1px, transparent 1px);
-      background-size: 20px 20px;
+    /* FULL SCREEN NOTEBOOK - ZERO BLANK SPACE */
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--bg-paper);
+      background-image: repeating-linear-gradient(
+        transparent,
+        transparent 31px,
+        var(--line-color) 31px,
+        var(--line-color) 32px
+      );
       font-family: var(--font-body);
       color: var(--ink);
       line-height: 1.5;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px 12px 60px;
       overflow-x: hidden;
       cursor: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2L12 28L16 16L28 12L2 2Z' fill='%2318181b' stroke='%23ffffff' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 2 2, auto;
     }
@@ -78,19 +104,73 @@
       cursor: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2L12 28L16 16L28 12L2 2Z' fill='%232563eb' stroke='%23ffffff' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 2 2, pointer;
     }
 
-    /* Fixed Top Navigation Bar */
-    .top-nav {
-      position: sticky;
-      top: 12px;
-      z-index: 100;
+    /* Left Spiral Binding Pinned Across Screen Height */
+    .spiral-spine {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 8px;
+      width: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    .spiral-ring {
+      width: 14px;
+      height: 14px;
+      background: #18181b;
+      border-radius: 50%;
+      box-shadow: inset 2px 2px 4px rgba(0,0,0,0.8), 1px 1px 0px rgba(255,255,255,0.3);
+      position: relative;
+    }
+
+    .spiral-ring::after {
+      content: '';
+      position: absolute;
+      left: -10px;
+      top: 2px;
+      width: 16px;
+      height: 8px;
+      border: 3px solid #71717a;
+      border-right: none;
+      border-radius: 10px 0 0 10px;
+    }
+
+    /* Vertical Red Margin Line Down Screen */
+    .margin-line {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 50px;
+      width: 2px;
+      background: var(--margin-line);
+      opacity: 0.85;
+      pointer-events: none;
+      z-index: 40;
+    }
+
+    /* Top Sticky Navigation Bar */
+    .top-nav-wrapper {
       width: 100%;
-      max-width: 880px;
+      display: flex;
+      justify-content: center;
+      position: sticky;
+      top: 10px;
+      z-index: 100;
+      padding: 0 16px 0 65px;
+    }
+
+    .top-nav {
+      width: 100%;
+      max-width: 1100px;
       background: var(--nav-bg);
-      backdrop-filter: blur(8px);
-      border: 3px solid var(--card-border);
+      backdrop-filter: blur(10px);
+      border: 2.5px solid var(--card-border);
       border-radius: 35px;
       padding: 8px 16px;
-      margin-bottom: 20px;
       box-shadow: 4px 4px 0px var(--card-border);
       display: flex;
       align-items: center;
@@ -128,7 +208,7 @@
     .nav-btn {
       font-family: var(--font-heading);
       font-size: 0.88rem;
-      padding: 6px 12px;
+      padding: 6px 14px;
       border: 2px solid var(--card-border);
       border-radius: 20px;
       background: var(--card-bg);
@@ -142,7 +222,8 @@
     }
 
     .nav-btn:hover, .nav-btn.active {
-      background: var(--yellow-postit);
+      background: #facc15;
+      color: #18181b;
       transform: translate(-1px, -2px);
       box-shadow: 2px 2px 0px var(--card-border);
     }
@@ -159,108 +240,46 @@
       font-size: 1rem;
       cursor: pointer;
       flex-shrink: 0;
+      color: var(--ink);
       transition: transform 0.15s ease;
     }
     .theme-toggle-btn:hover {
       transform: scale(1.1);
     }
 
-    /* Clean Centered Notebook Page Container */
-    .notebook-sheet {
+    /* Main Content Container - Full Width with proper padding */
+    .content-area {
       width: 100%;
-      max-width: 880px;
-      background-color: var(--bg-paper);
-      background-image: repeating-linear-gradient(
-        transparent,
-        transparent 31px,
-        var(--line-color) 31px,
-        var(--line-color) 32px
-      );
-      border: 3px solid var(--card-border);
-      border-radius: 12px;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.14), 6px 6px 0px var(--card-border);
-      position: relative;
-      padding: 40px 36px 50px 76px;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 20px 24px 80px 75px;
+      box-sizing: border-box;
     }
 
-    /* Left Spiral Binding */
-    .spiral-spine {
-      position: absolute;
-      top: 30px;
-      bottom: 30px;
-      left: 12px;
-      width: 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      pointer-events: none;
-      z-index: 5;
-    }
-
-    .spiral-ring {
-      width: 15px;
-      height: 15px;
-      background: #18181b;
-      border-radius: 50%;
-      box-shadow: inset 2px 2px 4px rgba(0,0,0,0.8), 1px 1px 0px rgba(255,255,255,0.3);
-      position: relative;
-    }
-
-    .spiral-ring::after {
-      content: '';
-      position: absolute;
-      left: -12px;
-      top: 2px;
-      width: 18px;
-      height: 9px;
-      border: 3.5px solid #71717a;
-      border-right: none;
-      border-radius: 10px 0 0 10px;
-    }
-
-    /* Vertical Red Margin Line */
-    .margin-line {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 54px;
-      width: 2px;
-      background: var(--margin-line);
-      opacity: 0.85;
-      pointer-events: none;
-    }
-
-    /* Page Navigation Sections */
     .page-section {
       display: none;
-      animation: pageTurnAnim 0.3s ease-out forwards;
+      animation: fadeInPage 0.25s ease-out forwards;
     }
 
     .page-section.active-page {
       display: block;
     }
 
-    @keyframes pageTurnAnim {
-      0% {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @keyframes fadeInPage {
+      0% { opacity: 0; transform: translateY(6px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* Typography */
+    /* Titles */
     h1.notebook-title {
       font-family: var(--font-heading);
-      font-size: 2.2rem;
+      font-size: 2.3rem;
       line-height: 1.15;
       letter-spacing: -0.5px;
       margin-bottom: 6px;
-      transform: rotate(-1deg);
+      transform: rotate(-0.5deg);
       display: inline-block;
+      color: var(--ink);
     }
 
     .subtitle-handwritten {
@@ -270,7 +289,6 @@
       font-weight: 700;
       margin-bottom: 24px;
       display: block;
-      transform: rotate(0.5deg);
     }
 
     /* Hero Bio Card */
@@ -279,26 +297,27 @@
       gap: 22px;
       align-items: flex-start;
       margin: 18px 0 24px;
-      padding: 16px;
-      background: rgba(255, 255, 255, 0.4);
+      padding: 18px;
+      background: var(--card-bg);
       border: 2px dashed var(--card-border);
       border-radius: 8px;
+      box-shadow: var(--card-shadow);
     }
 
     .polaroid-pic {
-      background: #fff;
+      background: #ffffff;
       padding: 8px 8px 16px 8px;
       border: 3px solid #18181b;
       box-shadow: 4px 4px 0px #18181b;
-      transform: rotate(-2.5deg);
+      transform: rotate(-2deg);
       text-align: center;
       flex-shrink: 0;
-      width: 145px;
+      width: 150px;
     }
 
     .polaroid-pic img {
       width: 100%;
-      height: 140px;
+      height: 145px;
       object-fit: cover;
       border: 2px solid #18181b;
       display: block;
@@ -315,22 +334,24 @@
 
     .hero-text {
       flex: 1;
-      font-size: 1.25rem;
-      line-height: 1.45;
+      font-size: 1.28rem;
+      line-height: 1.5;
+      color: var(--ink);
     }
 
     .hero-text p {
       margin-bottom: 12px;
     }
 
-    .highlight-yellow {
-      background: var(--yellow-postit);
+    .highlight-pill {
+      background: #facc15;
+      color: #18181b;
       padding: 2px 6px;
       border-radius: 4px;
       font-weight: bold;
     }
 
-    /* Pill Badges */
+    /* Badges */
     .quick-badges {
       display: flex;
       flex-wrap: wrap;
@@ -340,31 +361,76 @@
 
     .badge-pill {
       font-family: var(--font-heading);
-      font-size: 0.85rem;
-      padding: 4px 10px;
+      font-size: 0.88rem;
+      padding: 5px 12px;
       border: 2px solid var(--card-border);
       border-radius: 16px;
-      background: var(--yellow-postit);
+      background: var(--card-bg);
+      color: var(--ink);
       box-shadow: 2px 2px 0px var(--card-border);
       display: inline-flex;
       align-items: center;
       gap: 5px;
     }
 
-    /* Notebook Post-It Notes */
-    .postit-note {
-      padding: 18px 20px;
-      border: 2px solid var(--card-border);
-      border-radius: 4px;
-      box-shadow: 3px 3px 0px var(--card-border);
+    /* Introduction Video Card */
+    .video-card-container {
+      margin: 26px 0;
+      padding: 18px;
+      background: var(--card-bg);
+      border: 3px solid var(--card-border);
+      border-radius: 10px;
+      box-shadow: var(--card-shadow);
       position: relative;
-      margin: 18px 0;
     }
 
-    .postit-yellow { background-color: var(--yellow-postit); }
-    .postit-green  { background-color: var(--green-postit); }
-    .postit-blue   { background-color: var(--blue-postit); }
-    .postit-pink   { background-color: var(--pink-postit); }
+    .video-heading {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--ink);
+    }
+
+    .intro-video-element {
+      width: 100%;
+      max-height: 480px;
+      border-radius: 6px;
+      border: 2px solid var(--card-border);
+      background: #000;
+      outline: none;
+      display: block;
+      margin: 10px 0;
+    }
+
+    /* Post-It Notes with Guaranteed High Contrast in Light & Dark */
+    .postit-note {
+      padding: 18px 20px;
+      border-radius: 6px;
+      position: relative;
+      margin: 20px 0;
+      box-shadow: 3px 3px 0px var(--card-border);
+    }
+
+    .postit-yellow {
+      background-color: var(--postit-yellow-bg);
+      color: var(--postit-yellow-text);
+      border: 2px solid var(--postit-yellow-border);
+    }
+
+    .postit-green {
+      background-color: var(--postit-green-bg);
+      color: var(--postit-green-text);
+      border: 2px solid var(--postit-green-border);
+    }
+
+    .postit-blue {
+      background-color: var(--postit-blue-bg);
+      color: var(--postit-blue-text);
+      border: 2px solid var(--postit-blue-border);
+    }
 
     .tape-strip {
       position: absolute;
@@ -388,21 +454,23 @@
       padding: 14px 10px;
       border: 2px dashed var(--card-border);
       border-radius: 8px;
-      background: rgba(255, 255, 255, 0.5);
+      background: var(--card-bg);
+      box-shadow: var(--card-shadow);
     }
 
     .doodle-item {
       text-align: center;
       font-family: var(--font-hand);
       font-weight: 700;
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 4px;
+      color: var(--ink);
     }
 
-    /* Project Cards - STRICT SAME-LINE GITHUB LINK */
+    /* Project Cards - Strictly Aligned Buttons */
     .project-card {
       background: var(--card-bg);
       border: 2.5px solid var(--card-border);
@@ -427,12 +495,10 @@
 
     .project-name {
       font-family: var(--font-heading);
-      font-size: 1.25rem;
+      font-size: 1.3rem;
       letter-spacing: 0.3px;
       margin: 0;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      color: var(--ink);
     }
 
     .project-links-row {
@@ -444,8 +510,8 @@
 
     .btn-pill {
       font-family: var(--font-heading);
-      font-size: 0.8rem;
-      padding: 4px 12px;
+      font-size: 0.82rem;
+      padding: 5px 12px;
       border: 2px solid var(--card-border);
       border-radius: 16px;
       background: var(--card-bg);
@@ -460,23 +526,25 @@
     }
 
     .btn-pill:hover {
-      background: var(--yellow-postit);
+      background: #facc15;
+      color: #18181b;
       transform: translate(-1px, -1px);
     }
 
     .btn-pill-live {
-      background: #3b82f6;
+      background: #2563eb;
       color: #ffffff;
     }
     .btn-pill-live:hover {
-      background: #2563eb;
+      background: #1d4ed8;
       color: #ffffff;
     }
 
     .project-desc {
-      font-size: 1.15rem;
+      font-size: 1.18rem;
       margin-bottom: 10px;
-      line-height: 1.45;
+      line-height: 1.5;
+      color: var(--ink);
     }
 
     .tech-stack-row {
@@ -488,17 +556,18 @@
 
     .tech-pill {
       font-family: var(--font-code);
-      font-size: 0.76rem;
+      font-size: 0.78rem;
       padding: 2px 8px;
       border: 1.5px solid var(--card-border);
       border-radius: 4px;
-      background: rgba(0, 0, 0, 0.05);
+      background: rgba(125, 125, 125, 0.15);
+      color: var(--ink);
     }
 
     /* Certificates Grid */
     .cert-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
       gap: 16px;
       margin: 20px 0;
     }
@@ -507,7 +576,7 @@
       background: var(--card-bg);
       border: 2px solid var(--card-border);
       border-radius: 6px;
-      padding: 14px 16px;
+      padding: 16px;
       box-shadow: 3px 3px 0px var(--card-border);
       display: flex;
       flex-direction: column;
@@ -516,26 +585,27 @@
 
     .cert-title {
       font-family: var(--font-heading);
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       margin-bottom: 4px;
+      color: var(--ink);
     }
 
     .cert-issuer {
-      font-size: 0.95rem;
+      font-size: 1rem;
       color: var(--pencil);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      line-height: 1.4;
     }
 
     .cert-btn {
       align-self: flex-start;
-      margin-top: 8px;
     }
 
     /* Journey Timeline */
     .timeline-item {
       border-left: 3px solid var(--card-border);
       padding-left: 18px;
-      margin: 20px 0 20px 10px;
+      margin: 22px 0 22px 10px;
       position: relative;
     }
 
@@ -547,30 +617,32 @@
       width: 14px;
       height: 14px;
       border-radius: 50%;
-      background: var(--yellow-postit);
+      background: #facc15;
       border: 2.5px solid var(--card-border);
     }
 
     .timeline-title {
       font-family: var(--font-heading);
-      font-size: 1.25rem;
+      font-size: 1.3rem;
       margin-bottom: 2px;
+      color: var(--ink);
     }
 
     .timeline-meta {
       font-family: var(--font-code);
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       color: var(--pencil);
       margin-bottom: 8px;
     }
 
-    /* The Cheese Touch Section */
+    /* The Cheese Touch Section - Always readable in Dark & Light */
     .cheese-box {
-      border: 3px solid #18181b;
-      background: #fef08a;
+      border: 3px solid var(--cheese-border);
+      background: var(--cheese-bg);
+      color: var(--cheese-text);
       border-radius: 8px;
-      padding: 20px;
-      box-shadow: 5px 5px 0px #18181b;
+      padding: 22px;
+      box-shadow: 5px 5px 0px var(--card-border);
       margin: 20px 0;
       display: flex;
       gap: 20px;
@@ -578,15 +650,18 @@
     }
 
     /* Responsive */
-    @media (max-width: 640px) {
-      .notebook-sheet {
-        padding: 30px 16px 40px 52px;
-      }
-      .spiral-spine {
-        left: 6px;
+    @media (max-width: 768px) {
+      .content-area {
+        padding: 16px 12px 60px 60px;
       }
       .margin-line {
-        left: 42px;
+        left: 40px;
+      }
+      .spiral-spine {
+        left: 4px;
+      }
+      .top-nav-wrapper {
+        padding: 0 10px 0 45px;
       }
       .hero-box {
         flex-direction: column;
@@ -605,54 +680,56 @@
 </head>
 <body>
 
-  <!-- Top Navigation Bar -->
-  <header class="top-nav">
-    <a href="#home" class="nav-brand" onclick="goToPage('home')">
-      <img src="avatar.png" alt="Mahir Desai">
-      <span>MAHIR DESAI</span>
-    </a>
+  <!-- Left Spiral Binding (Pinned) -->
+  <div class="spiral-spine" aria-hidden="true">
+    <div class="spiral-ring"></div>
+    <div class="spiral-ring"></div>
+    <div class="spiral-ring"></div>
+    <div class="spiral-ring"></div>
+    <div class="spiral-ring"></div>
+    <div class="spiral-ring"></div>
+    <div class="spiral-ring"></div>
+    <div class="spiral-ring"></div>
+    <div class="spiral-ring"></div>
+    <div class="spiral-ring"></div>
+    <div class="spiral-ring"></div>
+    <div class="spiral-ring"></div>
+    <div class="spiral-ring"></div>
+    <div class="spiral-ring"></div>
+    <div class="spiral-ring"></div>
+    <div class="spiral-ring"></div>
+    <div class="spiral-ring"></div>
+    <div class="spiral-ring"></div>
+    <div class="spiral-ring"></div>
+    <div class="spiral-ring"></div>
+  </div>
 
-    <nav class="nav-links">
-      <button class="nav-btn active" id="tab-home" onclick="goToPage('home')">📖 DIARY</button>
-      <button class="nav-btn" id="tab-projects" onclick="goToPage('projects')">🚀 PROJECTS</button>
-      <button class="nav-btn" id="tab-certs" onclick="goToPage('certs')">📜 CERTIFICATES</button>
-      <button class="nav-btn" id="tab-journey" onclick="goToPage('journey')">💼 JOURNEY</button>
-      <button class="nav-btn" id="tab-touch" onclick="goToPage('touch')">🧀 THE TOUCH</button>
-      <button class="nav-btn" id="tab-hire" onclick="goToPage('hire')">📬 HIRE ME</button>
-    </nav>
+  <!-- Vertical Red Margin Line (Pinned) -->
+  <div class="margin-line" aria-hidden="true"></div>
 
-    <button class="theme-toggle-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">🌓</button>
-  </header>
+  <!-- Top Sticky Navigation Bar -->
+  <div class="top-nav-wrapper">
+    <header class="top-nav">
+      <a href="#home" class="nav-brand" onclick="goToPage('home')">
+        <img src="avatar.png" alt="Mahir Desai">
+        <span>MAHIR DESAI</span>
+      </a>
 
-  <!-- Centered Notebook Sheet -->
-  <main class="notebook-sheet" id="notebook">
-    
-    <!-- Left Spiral Binding -->
-    <div class="spiral-spine" aria-hidden="true">
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-    </div>
+      <nav class="nav-links">
+        <button class="nav-btn active" id="tab-home" onclick="goToPage('home')">📖 DIARY</button>
+        <button class="nav-btn" id="tab-projects" onclick="goToPage('projects')">🚀 PROJECTS</button>
+        <button class="nav-btn" id="tab-certs" onclick="goToPage('certs')">📜 CERTIFICATES</button>
+        <button class="nav-btn" id="tab-journey" onclick="goToPage('journey')">💼 JOURNEY</button>
+        <button class="nav-btn" id="tab-touch" onclick="goToPage('touch')">🧀 THE TOUCH</button>
+        <button class="nav-btn" id="tab-hire" onclick="goToPage('hire')">📬 HIRE ME</button>
+      </nav>
 
-    <!-- Vertical Red Margin Line -->
-    <div class="margin-line" aria-hidden="true"></div>
+      <button class="theme-toggle-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">🌓</button>
+    </header>
+  </div>
+
+  <!-- Full Screen Notebook Content -->
+  <main class="content-area" id="notebook-main">
 
     <!-- ================= PAGE 1: DIARY (HOME) ================= -->
     <section id="page-home" class="page-section active-page">
@@ -663,7 +740,7 @@
       <div class="hero-box">
         <div class="polaroid-pic">
           <img src="avatar.png" alt="Mahir Desai">
-          <div class="polaroid-caption">Mahir Desai<br><span style="font-size:0.85rem; color:#666;">(Builder & Researcher)</span></div>
+          <div class="polaroid-caption">Mahir Desai<br><span style="font-size:0.85rem; color:#555;">(Builder & Researcher)</span></div>
         </div>
 
         <div class="hero-text">
@@ -671,10 +748,10 @@
             <em>"First of all, let me get something straight: this is a <strong>PORTFOLIO</strong>, not a diary. Mom said I need an SDE / ML placement before relatives start interrogating me at wedding buffets."</em>
           </p>
           <p>
-            I am a final-year Computer Science student at <strong>Manipal University Jaipur</strong> (<span class="highlight-yellow">8.85 CGPA</span>) concurrently pursuing a <strong>B.S. in Data Science & Applications from IIT Madras</strong> (<span class="highlight-yellow">8.18 CGPA</span>).
+            I am a final-year Computer Science student at <strong>Manipal University Jaipur</strong> (<span class="highlight-pill">8.85 CGPA</span>) concurrently pursuing a <strong>B.S. in Data Science & Applications from IIT Madras</strong> (<span class="highlight-pill">8.18 CGPA</span>).
           </p>
           <p>
-            First-author deep learning researcher (<strong>Springer ICICC 2026</strong>), published <strong>Indian GenAI Patent Inventor</strong> (App No: <code>202611099581 A</code>), and ex-<strong>IIT Kharagpur Research Intern</strong>.
+            First-author deep learning researcher (<strong>Springer ICICC 2026</strong>), published <strong>Indian GenAI Patent Inventor</strong> (App No: <code>202611099581 A</code>), and ex-<strong>IIT Kharagpur Biomedical AI Research Intern</strong>.
           </p>
         </div>
       </div>
@@ -688,16 +765,31 @@
         <span class="badge-pill">☕ 0 Broken Production DBs</span>
       </div>
 
+      <!-- Video Introduction Player -->
+      <div class="video-card-container">
+        <h3 class="video-heading">🎬 70-SECOND VIDEO INTRODUCTION</h3>
+        <p style="font-size: 1.15rem; color: var(--pencil); margin-bottom: 8px;">
+          Hit play to watch my quick introduction, engineering journey, and technical overview:
+        </p>
+        <video controls playsinline preload="metadata" poster="avatar.png" class="intro-video-element">
+          <source src="intro_video.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div style="font-family: var(--font-hand); font-size: 1.15rem; font-weight: bold; margin-top: 6px;">
+          "Watch me explain who I am, what systems I've built, and what I bring to your team!"
+        </div>
+      </div>
+
       <!-- Doodle Strip -->
       <div class="doodle-strip">
         <div class="doodle-item">
           <svg width="65" height="60" viewBox="0 0 100 90" fill="none">
-            <circle cx="35" cy="28" r="14" stroke="#18181b" stroke-width="3" fill="#fff"/>
+            <circle cx="35" cy="28" r="14" stroke="currentColor" stroke-width="3" fill="#fff"/>
             <path d="M28 26 Q30 31 32 36" stroke="#2563eb" stroke-width="2.5" fill="none"/>
             <path d="M42 26 Q40 31 38 36" stroke="#2563eb" stroke-width="2.5" fill="none"/>
-            <line x1="35" y1="42" x2="35" y2="70" stroke="#18181b" stroke-width="3"/>
-            <rect x="25" y="65" width="60" height="6" fill="#18181b"/>
-            <path d="M50 65 L55 45 L75 45 L78 65 Z" stroke="#18181b" stroke-width="2.5" fill="#fff"/>
+            <line x1="35" y1="42" x2="35" y2="70" stroke="currentColor" stroke-width="3"/>
+            <rect x="25" y="65" width="60" height="6" fill="currentColor"/>
+            <path d="M50 65 L55 45 L75 45 L78 65 Z" stroke="currentColor" stroke-width="2.5" fill="#fff"/>
             <text x="56" y="58" font-family="monospace" font-size="7" fill="#dc2626">DP[i][j]</text>
           </svg>
           <div>Me vs LeetCode DP</div>
@@ -705,12 +797,10 @@
 
         <div class="doodle-item">
           <svg width="65" height="60" viewBox="0 0 100 90" fill="none">
-            <!-- Late night coding with coffee -->
-            <circle cx="38" cy="28" r="13" stroke="#18181b" stroke-width="3" fill="#fff"/>
-            <line x1="38" y1="41" x2="38" y2="68" stroke="#18181b" stroke-width="3"/>
-            <!-- Coffee mug with steam -->
-            <rect x="65" y="52" width="18" height="20" rx="3" stroke="#18181b" stroke-width="2.5" fill="#f59e0b"/>
-            <path d="M83 56 C88 56 88 66 83 66" stroke="#18181b" stroke-width="2.5" fill="none"/>
+            <circle cx="38" cy="28" r="13" stroke="currentColor" stroke-width="3" fill="#fff"/>
+            <line x1="38" y1="41" x2="38" y2="68" stroke="currentColor" stroke-width="3"/>
+            <rect x="65" y="52" width="18" height="20" rx="3" stroke="currentColor" stroke-width="2.5" fill="#f59e0b"/>
+            <path d="M83 56 C88 56 88 66 83 66" stroke="currentColor" stroke-width="2.5" fill="none"/>
             <path d="M70 48 Q72 40 70 34" stroke="#71717a" stroke-width="2" fill="none"/>
             <path d="M77 48 Q79 40 77 34" stroke="#71717a" stroke-width="2" fill="none"/>
           </svg>
@@ -719,30 +809,36 @@
 
         <div class="doodle-item">
           <svg width="65" height="60" viewBox="0 0 100 90" fill="none">
-            <!-- All tests passing -->
-            <rect x="20" y="25" width="60" height="50" rx="6" stroke="#18181b" stroke-width="3" fill="#fff"/>
+            <rect x="20" y="25" width="60" height="50" rx="6" stroke="currentColor" stroke-width="3" fill="#fff"/>
             <path d="M35 50 L45 60 L68 38" stroke="#16a34a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <div>All Tests Passed!</div>
         </div>
       </div>
 
-      <!-- Relocation Post-it (Direct User Specification) -->
+      <!-- Real Life Relocation Story (Exact User Specification) -->
       <div class="postit-note postit-blue">
         <div class="tape-strip"></div>
-        <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-top: 4px;">✈️ RELOCATION: 100% READY TO MOVE ANYWHERE</h3>
-        <p style="font-size: 1.2rem; line-height: 1.45; margin: 8px 0;">
-          <strong>Zero relocation hesitation:</strong> I am completely open and eager to relocate anywhere across India or globally for this role.
+        <h3 style="font-family: var(--font-heading); font-size: 1.35rem; margin-top: 4px; margin-bottom: 8px;">✈️ RELOCATION & LIFE JOURNEY (READY TO MOVE ANYWHERE!)</h3>
+        <p style="font-size: 1.25rem; line-height: 1.5; margin-bottom: 10px;">
+          <strong>Zero relocation hesitation:</strong> I am completely ready and excited to relocate anywhere across India or globally for this role. Moving and thriving in new places is second nature to me:
         </p>
-        <p style="font-size: 1.15rem; line-height: 1.45; margin: 4px 0;">
-          I have lived, studied, and adapted across: <strong>Kakinada &rarr; Kota &rarr; Jaipur &rarr; Kharagpur &rarr; Chhatrapati Sambhajinagar &rarr; Bangalore (permanent base) &rarr; Hyderabad</strong> (some temporary, permanent home in Bangalore). Adapting to new environments is second nature to me.
+        <ul style="font-size: 1.18rem; line-height: 1.55; margin-left: 22px;">
+          <li><strong>Kakinada:</strong> My home where I grew up and completed school.</li>
+          <li><strong>Kota:</strong> Moved here for my intensive drop year preparing for JEE.</li>
+          <li><strong>Jaipur:</strong> Spent 4 years completing my B.Tech CSE and building core AI systems at Manipal University Jaipur.</li>
+          <li><strong>Kharagpur:</strong> Spent 2 months on-site at IIT Kharagpur for my Biomedical AI Research Internship.</li>
+          <li><strong>Chhatrapati Sambhajinagar, Bangalore & Hyderabad:</strong> Visited and stayed repeatedly since childhood to spend time with my relatives!</li>
+        </ul>
+        <p style="font-size: 1.2rem; line-height: 1.45; margin-top: 10px;">
+          <strong>Bottom line:</strong> Adapting to new environments, engineering teams, and cities is completely effortless for me.
         </p>
       </div>
 
       <!-- Quick Action Buttons -->
-      <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px;">
-        <button class="nav-btn" onclick="goToPage('projects')" style="background:var(--yellow-postit); font-size:1.05rem; padding:8px 16px;">🚀 Explore 6 Live Projects &rarr;</button>
-        <button class="nav-btn" onclick="goToPage('certs')" style="background:var(--green-postit); font-size:1.05rem; padding:8px 16px;">📜 View Verified Certificates &rarr;</button>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px;">
+        <button class="nav-btn" onclick="goToPage('projects')" style="background:#facc15; color:#18181b; font-size:1.05rem; padding:8px 18px;">🚀 Explore 6 Live Projects &rarr;</button>
+        <button class="nav-btn" onclick="goToPage('certs')" style="background:#4ade80; color:#18181b; font-size:1.05rem; padding:8px 18px;">📜 View Verified Certificates &rarr;</button>
       </div>
     </section>
 
@@ -757,7 +853,7 @@
           <h2 class="project-name">1. Slide2Learn 🧠</h2>
           <div class="project-links-row">
             <a href="https://github.com/mahirdesai2004/Slide2Learn" target="_blank" rel="noopener" class="btn-pill">💻 GitHub</a>
-            <a href="docs/Slide2Learn_Full_Patent_Specification.pdf" target="_blank" rel="noopener" class="btn-pill" style="background:#fef08a;">📜 Patent Spec</a>
+            <a href="docs/Slide2Learn_Full_Patent_Specification.pdf" target="_blank" rel="noopener" class="btn-pill" style="background:#fef08a; color:#18181b;">📜 Patent Spec</a>
           </div>
         </div>
         <p class="project-desc">
@@ -932,20 +1028,11 @@
           </div>
           <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:8px;">
             <a href="docs/Springer_ICICC_2026_Certificate.pdf" target="_blank" rel="noopener" class="btn-pill">📥 View Certificate</a>
-            <a href="https://doi.org/10.1007/978-3-032-28591-1_1" target="_blank" rel="noopener" class="btn-pill" style="background:#dbeafe;">🔗 Springer DOI</a>
+            <a href="https://doi.org/10.1007/978-3-032-28591-1_1" target="_blank" rel="noopener" class="btn-pill" style="background:#2563eb; color:#fff;">🔗 Springer DOI</a>
           </div>
         </div>
 
-        <!-- 7. Amazon ML Summer School Mentee Overview -->
-        <div class="cert-card">
-          <div>
-            <div class="cert-title">🧠 Amazon ML Summer School 2026</div>
-            <div class="cert-issuer">Competitive mentorship covering deep neural architectures & scalable ML systems with Amazon Scientists.</div>
-          </div>
-          <a href="docs/Amazon_ML_Summer_School_Details.pdf" target="_blank" rel="noopener" class="btn-pill cert-btn">📥 View Overview & SOP (PDF)</a>
-        </div>
-
-        <!-- 8. IIT Madras Grade Card / Foundation -->
+        <!-- 7. IIT Madras Grade Card / Foundation -->
         <div class="cert-card">
           <div>
             <div class="cert-title">🎓 IIT Madras Foundation Grade Card</div>
@@ -954,7 +1041,7 @@
           <a href="docs/IIT_Madras_Degree_GradeCard.pdf" target="_blank" rel="noopener" class="btn-pill cert-btn">📥 View Grade Card (PDF)</a>
         </div>
 
-        <!-- 9. InnovateX 2.0 1st Rank Award -->
+        <!-- 8. InnovateX 2.0 1st Rank Award -->
         <div class="cert-card">
           <div>
             <div class="cert-title">🥇 InnovateX 2.0 1st Rank Award</div>
@@ -963,7 +1050,7 @@
           <a href="docs/InnovateX_1st_Rank_Certificate.png" target="_blank" rel="noopener" class="btn-pill cert-btn">🖼️ View Award (PNG)</a>
         </div>
 
-        <!-- 10. MUJ CSE Excellence Award -->
+        <!-- 9. MUJ CSE Excellence Award -->
         <div class="cert-card">
           <div>
             <div class="cert-title">🌟 MUJ Student Excellence Award</div>
@@ -972,7 +1059,7 @@
           <a href="docs/MUJ_CSE_Excellence_Award.png" target="_blank" rel="noopener" class="btn-pill cert-btn">🖼️ View Certificate (PNG)</a>
         </div>
 
-        <!-- 11. Oracle Database Programming with SQL -->
+        <!-- 10. Oracle Database Programming with SQL -->
         <div class="cert-card">
           <div>
             <div class="cert-title">💻 Oracle SQL Programming Cert</div>
@@ -981,7 +1068,7 @@
           <a href="docs/Oracle_SQL_Certificate.pdf" target="_blank" rel="noopener" class="btn-pill cert-btn">📥 View Certificate (PDF)</a>
         </div>
 
-        <!-- 12. Oracle Database Foundations -->
+        <!-- 11. Oracle Database Foundations -->
         <div class="cert-card">
           <div>
             <div class="cert-title">📦 Oracle Database Foundations</div>
@@ -990,16 +1077,7 @@
           <a href="docs/Oracle_Database_Foundations.pdf" target="_blank" rel="noopener" class="btn-pill cert-btn">📥 View Certificate (PDF)</a>
         </div>
 
-        <!-- 13. AI Agents Workshop Certificate -->
-        <div class="cert-card">
-          <div>
-            <div class="cert-title">🤖 AI Agents Workshop</div>
-            <div class="cert-issuer">Hands-on practical certification in building Autonomous Agent workflows.</div>
-          </div>
-          <a href="docs/AI_Agents_Workshop_Certificate.png" target="_blank" rel="noopener" class="btn-pill cert-btn">🖼️ View Certificate (PNG)</a>
-        </div>
-
-        <!-- 14. GeeksforGeeks Certification -->
+        <!-- 12. GeeksforGeeks Certification -->
         <div class="cert-card">
           <div>
             <div class="cert-title">🟩 GeeksforGeeks Certification</div>
@@ -1019,7 +1097,7 @@
       <div class="timeline-item">
         <h3 class="timeline-title">Summer Research Intern — IIT Kharagpur</h3>
         <div class="timeline-meta">May 2026 – July 2026 | Centre of Excellence in Affordable Healthcare</div>
-        <p style="font-size: 1.15rem; line-height: 1.45;">
+        <p style="font-size: 1.18rem; line-height: 1.5; color: var(--ink);">
           Engineered hardware data ingestion, signal filtering (powerline & baseline noise elimination), and derived 4 mathematical ECG leads from raw sensor inputs. Automated inference on edge microcontrollers.
         </p>
         <div style="margin-top: 8px; display:flex; gap:8px;">
@@ -1029,20 +1107,9 @@
       </div>
 
       <div class="timeline-item">
-        <h3 class="timeline-title">Mentee — Amazon ML Summer School 2026</h3>
-        <div class="timeline-meta">July 2026 – August 2026 | Amazon India</div>
-        <p style="font-size: 1.15rem; line-height: 1.45;">
-          Selected for Amazon's competitive machine learning mentorship. Completed intensive coursework on deep neural network architectures, probabilistic modeling, and large-scale ML systems led by Amazon Scientists.
-        </p>
-        <div style="margin-top: 8px;">
-          <a href="docs/Amazon_ML_Summer_School_Details.pdf" target="_blank" rel="noopener" class="btn-pill">📑 Mentorship Details</a>
-        </div>
-      </div>
-
-      <div class="timeline-item">
         <h3 class="timeline-title">First-Author Deep Learning Researcher — Springer</h3>
         <div class="timeline-meta">August 2024 – April 2026 | Published ICICC 2026 (Springer, Cham)</div>
-        <p style="font-size: 1.15rem; line-height: 1.45;">
+        <p style="font-size: 1.18rem; line-height: 1.5; color: var(--ink);">
           Authored <em>"Towards Reliable and Interpretable Parkinson’s Detection from EEG"</em>. Designed convolutional-recurrent architectures with strict subject-wise cross-validation to eliminate data leakage.
         </p>
         <div style="margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap;">
@@ -1054,7 +1121,7 @@
       <div class="timeline-item">
         <h3 class="timeline-title">Patent Inventor — Indian Patent Office</h3>
         <div class="timeline-meta">Filed August 2026 | Published Application: 202611099581 A</div>
-        <p style="font-size: 1.15rem; line-height: 1.45;">
+        <p style="font-size: 1.18rem; line-height: 1.5; color: var(--ink);">
           Invented system and method for transforming presentation slides into adaptive multi-modal learning environments using generative AI feedback loops and semantic caching.
         </p>
         <div style="margin-top: 8px; display: flex; gap: 8px;">
@@ -1082,23 +1149,23 @@
         </div>
         <div>
           <h2 style="font-family: var(--font-heading); font-size: 1.45rem; margin-bottom: 6px;">DON'T GET THE CHEESE TOUCH!</h2>
-          <p style="font-size: 1.15rem; line-height: 1.45;">
+          <p style="font-size: 1.2rem; line-height: 1.45;">
             In our industry, the <strong>Cheese Touch</strong> is whoever merges an untested PR directly into <code>main</code> on Friday at 5:30 PM.
           </p>
-          <p style="font-size: 1.15rem; line-height: 1.45; margin-top: 6px;">
+          <p style="font-size: 1.2rem; line-height: 1.45; margin-top: 6px;">
             <strong>Good news:</strong> I write clean FastAPI/Pydantic code, document my APIs, write automated tests (AutoQA), and protect teammates from getting the Cheese Touch.
           </p>
         </div>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
         <div class="postit-note postit-yellow">
-          <h3 style="font-family: var(--font-heading); font-size: 1.15rem;">⚡ Available Immediately</h3>
-          <p style="font-size: 1.1rem; margin-top: 4px;">Ready to start full-time or 6-month internship immediately! Zero college blockers.</p>
+          <h3 style="font-family: var(--font-heading); font-size: 1.25rem;">⚡ Available Immediately</h3>
+          <p style="font-size: 1.15rem; margin-top: 4px;">Ready to start full-time or 6-month internship immediately! Zero college blockers.</p>
         </div>
         <div class="postit-note postit-green">
-          <h3 style="font-family: var(--font-heading); font-size: 1.15rem;">✈️ 100% Relocation Ready</h3>
-          <p style="font-size: 1.1rem; margin-top: 4px;">Ready to relocate anywhere in India or abroad with zero friction.</p>
+          <h3 style="font-family: var(--font-heading); font-size: 1.25rem;">✈️ 100% Relocation Ready</h3>
+          <p style="font-size: 1.15rem; margin-top: 4px;">Ready to relocate anywhere across India or globally with zero friction.</p>
         </div>
       </div>
     </section>
@@ -1121,7 +1188,7 @@
 
       <div class="postit-note postit-green">
         <h3 style="font-family: var(--font-heading); font-size: 1.25rem;">🤝 What I Bring to Your Engineering Team</h3>
-        <ul style="margin-left: 20px; font-size: 1.15rem; line-height: 1.6; margin-top: 6px;">
+        <ul style="margin-left: 20px; font-size: 1.18rem; line-height: 1.6; margin-top: 6px;">
           <li>Proven builder of autonomous agent workflows (LangGraph, FastAPI, vector search).</li>
           <li>Strong mathematical and ML rigor (IIT Madras Data Science + first-author deep learning publication).</li>
           <li>Clean code discipline with automated end-to-end testing and API documentation.</li>
@@ -1134,7 +1201,7 @@
 
   <!-- Interactive Audio & Page Navigation Script -->
   <script>
-    // Web Audio Synthesizer for Realistic Wimpy Kid Paper Flip Sound
+    // Web Audio Synthesizer for Wimpy Kid Paper Flip Sound
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
 
@@ -1193,13 +1260,6 @@
       if (activeBtn) {
         activeBtn.classList.add("active");
       }
-
-      // Subtle notebook turn animation
-      const notebook = document.getElementById("notebook");
-      notebook.style.transform = "scale(0.995)";
-      setTimeout(() => {
-        notebook.style.transform = "scale(1)";
-      }, 150);
 
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
